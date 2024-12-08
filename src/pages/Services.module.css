@@ -1,0 +1,289 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    font-family: Arial, sans-serif;
+
+    position: relative;
+}
+
+.containerBox{
+    padding: 1rem;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    width: 100%;
+    padding: 1rem;
+    font-size: 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #8ab934;
+}
+
+.manageUsers{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 0;
+}
+
+.addUserButton{
+    padding: 0.5rem 1rem;
+    background-color: #082444;
+    color: white;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.actions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem
+}
+
+.editButton{
+    padding: 0.5rem 1rem;
+    background-color: #082444;
+    color: white;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: none;
+}
+
+.deleteButton{
+    padding: 0.5rem 1rem;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: none;
+}
+
+.memberModal{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.memberModalContent{
+    width: 40em;
+    height: auto;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    position: relative;
+}
+
+.memberModalContent i{
+    font-size: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    margin: 1rem;
+    color: black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+.containerBox {
+    padding: 1rem;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    width: 100%;
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #8ab934;
+    border-radius: 5px;
+}
+
+.manageUsers {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 0;
+}
+
+.addUserButton {
+    padding: 0.5rem 1rem;
+    background-color: #082444;
+    color: white;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.addUserButton:hover {
+    background-color: #064170;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.editButton, .deleteButton {
+    padding: 0.5rem 1rem;
+    background-color: #082444;
+    color: white;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.editButton:hover {
+    background-color: #064170;
+}
+
+.deleteButton {
+    background-color: #e74c3c;
+}
+
+.deleteButton:hover {
+    background-color: #c0392b;
+}
+
+/* Modal Styles */
+.memberModal {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.memberModalContent {
+    width: 40em;
+    max-width: 90%;
+    height: auto;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+.memberModalContent i {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    margin: 1rem;
+    color: black;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #082444;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="file"] {
+    padding: 0.5rem;
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    font-size: 1rem;
+}
+
+input[type="submit"], button[type="submit"] {
+    padding: 0.7rem 1.5rem;
+    background-color: #8ab934;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover, button[type="submit"]:hover {
+    background-color: #6a9a2d;
+}
+
+/* Animation for fading in the modal */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

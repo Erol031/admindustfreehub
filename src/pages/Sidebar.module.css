@@ -1,0 +1,35 @@
+ /* Sidebar */
+ .sidebar {
+    width: 250px;
+    background-color: #082444;
+    color: #ecf0f1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+    
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+    
+  .navList {
+    list-style: none;
+    padding: 0;
+  }
+    
+  .navItem {
+    padding: 10px 15px;
+    margin: 5px 0;
+    background-color: #061a31;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+    
+  .navItem:hover {
+      background-color: #164f91;
+      color: #fff;
+  }
