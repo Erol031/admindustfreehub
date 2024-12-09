@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Panel.module.css";
 import Sidebar from "./Sidebar";
 import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore"; // Added getDoc to check for user in services
+import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore"; // Added getDoc to check for user in services
 
 function Panel({ user }) {
     const [totalUsers, setTotalUsers] = useState(0);

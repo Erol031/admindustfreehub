@@ -21,26 +21,21 @@ function Booking({ user }) {
         // Iterate through each booking document
         querySnapshot.forEach((docSnap) => {
           const data = docSnap.data();
-          console.log("Document Data:", data); // Log to check structure
 
           // Check each key in the document to find arrays that match user.uid
           for (let key in data) {
-            // Only proceed if the key name matches user.uid
             if (key === user.uid && Array.isArray(data[key])) {
-              console.log("Array Found for User:", key); // Log the matching array key
-
-              // Iterate through the array (this should be an array of booking objects)
-              data[key].forEach((booking, index) => {
-                console.log("Booking:", booking); // Log each booking object
-
-                // Add the booking to the list if the user.uid matches
-                allBookings.push({ ...booking, bookingDocId: docSnap.id });
+              // Add the bookings for the user to the list
+              data[key].forEach((booking) => {
+                allBookings.push({
+                  ...booking,
+                  bookingDocId: docSnap.id, // Add document ID for reference
+                });
               });
             }
           }
         });
 
-        // If there are bookings, update state
         setBookings(allBookings);
         setLoading(false);
       } catch (error) {
@@ -49,52 +44,61 @@ function Booking({ user }) {
       }
     };
 
-    // Fetch bookings when the component mounts
     fetchBookings();
   }, [user.uid]);
 
-  const handleStatusUpdate = async (bookingDocId, currentStatus, action) => {
+  const handleStatusUpdate = async (bookingDocId, bookingIndex, currentStatus, action) => {
     try {
-      let newStatus = currentStatus;
-  
-      // Define status changes based on the action
+      // Determine the new status based on the action
+      let newStatus;
       if (action === "accept" && currentStatus === "pending") {
         newStatus = "in-progress";
       } else if (action === "finish" && currentStatus === "in-progress") {
         newStatus = "done";
       } else if (action === "reject" && currentStatus === "pending") {
         newStatus = "rejected";
+      } else {
+        console.error("Invalid action or current status");
+        return;
       }
-  
-      // Reference to the specific booking document
+
+      // Reference the specific booking document
       const bookingRef = doc(db, "bookings", bookingDocId);
-  
-      // Fetch the current document before updating to preserve the structure
-      const docSnap = await getDoc(bookingRef);
-      const docData = docSnap.data();
-  
-      // Get the current state of the specific booking and user fields
-      const updatedBookings = docData[user.uid].map((booking) =>
-        booking.bookingDocId === bookingDocId
-          ? { ...booking, status: newStatus } // Only update the status
-          : booking
+
+      // Fetch the current booking document
+      const bookingDoc = await getDoc(bookingRef);
+      if (!bookingDoc.exists()) {
+        console.error("Booking document not found");
+        return;
+      }
+
+      // Get the array of bookings for the current user
+      const currentUserBookings = bookingDoc.data()[user.uid];
+      if (!Array.isArray(currentUserBookings)) {
+        console.error("No bookings found for the user in the document");
+        return;
+      }
+
+      // Update the status of the specific booking
+      const updatedBookings = currentUserBookings.map((booking, idx) =>
+        idx === bookingIndex ? { ...booking, status: newStatus } : booking
       );
-  
-      // Update the status field in Firestore while preserving other fields
+
+      // Update the document in Firestore
       await updateDoc(bookingRef, {
-        [`${user.uid}`]: updatedBookings, // Ensure the structure is correct for Firestore update
+        [user.uid]: updatedBookings, // Replace the user's booking array with the updated one
       });
-  
-      // Update the local state to reflect the new status
+
+      // Update the local state
       setBookings((prevBookings) =>
-        prevBookings.map((booking) =>
-          booking.bookingDocId === bookingDocId
-            ? { ...booking, status: newStatus }
-            : booking
+        prevBookings.map((booking, idx) =>
+          idx === bookingIndex ? { ...booking, status: newStatus } : booking
         )
       );
+
+      console.log(`Booking status updated to "${newStatus}"`);
     } catch (error) {
-      console.error("Error updating status:", error);
+      console.error("Error updating booking status:", error);
     }
   };
 
@@ -137,19 +141,18 @@ function Booking({ user }) {
                   <td>{booking.comment}</td>
                   <td>{booking.status}</td>
                   <td>
-                    {/* Actions based on status */}
                     {booking.status === "pending" && (
                       <>
                         <button
                           onClick={() =>
-                            handleStatusUpdate(booking.bookingDocId, booking.status, "accept")
+                            handleStatusUpdate(booking.bookingDocId, index, booking.status, "accept")
                           }
                         >
                           Accept
                         </button>
                         <button
                           onClick={() =>
-                            handleStatusUpdate(booking.bookingDocId, booking.status, "reject")
+                            handleStatusUpdate(booking.bookingDocId, index, booking.status, "reject")
                           }
                         >
                           Reject
@@ -160,23 +163,14 @@ function Booking({ user }) {
                       <>
                         <button
                           onClick={() =>
-                            handleStatusUpdate(booking.bookingDocId, booking.status, "finish")
+                            handleStatusUpdate(booking.bookingDocId, index, booking.status, "finish")
                           }
                         >
                           Finish
                         </button>
-                        <button
-                          onClick={() =>
-                            handleStatusUpdate(booking.bookingDocId, booking.status, "reject")
-                          }
-                        >
-                          Reject
-                        </button>
                       </>
                     )}
-                    {booking.status === "done" || booking.status === "rejected" ? (
-                      <span>Completed</span>
-                    ) : null}
+                    {(booking.status === "done" || booking.status === "rejected") && <span>Completed</span>}
                   </td>
                 </tr>
               ))
